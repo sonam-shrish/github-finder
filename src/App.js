@@ -11,6 +11,14 @@ class App extends Component {
     users:[],
     loading: false
   }
+  //Clear Users
+  clearUsers = () => {
+    this.setState({
+      users:[],
+      loading:false
+    })
+  }
+
   //search users
   searchUsers = (text)=>
   {
@@ -38,7 +46,7 @@ class App extends Component {
   return (
     <div className="App">
       <Navbar/>
-      <Search searchUsers = {this.searchUsers}/>
+      <Search searchUsers = {this.searchUsers} clearUsers={this.clearUsers}/>
       <div className='container'>
       <Users loading={this.state.loading} users={this.state.users}/>
       </div>
