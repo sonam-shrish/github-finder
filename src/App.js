@@ -4,18 +4,21 @@ import Users from './components/users/Users';
 import axios from 'axios'
 import {Component} from 'react';
 import Search from './components/users/Search'
+import Alert from './components/layout/Alert'
 
 
 class App extends Component {
   state= {
     users:[],
-    loading: false
+    loading: false,
+    alert:null
+
   }
   //Clear Users
   clearUsers = () => {
     this.setState({
       users:[],
-      loading:false
+      loading:false,
     })
   }
 
@@ -30,6 +33,12 @@ class App extends Component {
     users:res.data.items,
     loading:false
   })})
+  }
+
+  //set Alert
+  setAlert = (msg, type) => {
+    this.setState({alert:{msg, type}})
+
   }
   // componentDidMount() {
   //   //In order not to exhaust the request we are equipping the request url with the client id and client secret which is stored in .env.local
@@ -46,9 +55,16 @@ class App extends Component {
   return (
     <div className="App">
       <Navbar/>
-      <Search searchUsers = {this.searchUsers} clearUsers={this.clearUsers} showClear= {this.state.users.length!==0?true:false}/>
+      <div className='container'>
+      <Alert alert={this.state.alert} />
+      <Search 
+      searchUsers = {this.searchUsers} 
+      clearUsers={this.clearUsers} 
+      setAlert={this.setAlert}
+      showClear= {this.state.users.length!==0?true:false}/>
       <div className='container'>
       <Users loading={this.state.loading} users={this.state.users}/>
+      </div>
       </div>
     </div>
   );
