@@ -1,7 +1,8 @@
 import React from 'react'
-import UserItem from './UserItem'
+import UserItem from './UserItem';
+import Spinner from '../layout/Spinner'
 
-const Users = (props)=> {
+const Users = ({users, loading})=> {
 
 
         const userStyle = {
@@ -9,15 +10,21 @@ const Users = (props)=> {
             gridTemplateColumns: 'repeat(3, 1fr)',
             gridGap: '1em'
         }
-        
-        return (
-            <div style = {userStyle}>
-                {props.users.map(user => (
-                    <UserItem key = {user.id} user={user} />))}
+        if(loading){
+            return <Spinner />
 
-                
-            </div>
-        )
+        } else {
+            return (
+                <div style = {userStyle}>
+                    {users.map(user => (
+                        <UserItem key = {user.id} user={user} />))}
+    
+                    
+                </div>
+            )
+
+        }
+        
 }
     
 

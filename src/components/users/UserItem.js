@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserItem = ({user:{login, avatar_url, url} }) => {
+const UserItem = ({user:{login, avatar_url, html_url} }) => {
     
         return (
             <div className='card text-center'>
@@ -8,7 +8,7 @@ const UserItem = ({user:{login, avatar_url, url} }) => {
                 <h2>{login}</h2>
                 <div>
 
-                    <a href={url} className="btn btn-dark btn-sm my-1">More</a>
+                    <a href={html_url} className="btn btn-dark btn-sm my-1">More</a>
                 </div>
 
                 
