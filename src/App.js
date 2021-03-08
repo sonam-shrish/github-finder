@@ -9,12 +9,14 @@ import Alert from './components/layout/Alert'
 import {Fragment} from 'react'
 import About from './components/pages/About'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import User from './components/users/User'
 
 
 class App extends Component {
   state= {
     users:[],
     loading: false,
+    user:{},
     alert:null
 
   }
@@ -22,6 +24,7 @@ class App extends Component {
   clearUsers = () => {
     this.setState({
       users:[],
+      user:{},
       loading:false,
     })
   }
@@ -37,6 +40,19 @@ class App extends Component {
     users:res.data.items,
     loading:false
   })})
+  }
+
+  //Get individual users
+  getUser = async (username)=> {
+    this.setState({
+      loading:true
+    })
+    axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`).then(res=>{
+  this.setState({
+    user:res.data,
+    loading:false
+  })})
+    
   }
 
   //set Alert
@@ -79,8 +95,11 @@ class App extends Component {
           </Fragment>
         )} />
         <Route exact path='/about' component={About} />
+    /
+        <Route exact path='/user/:login' render={props => (
+          <User {...props} getUser={this.getUser} user={this.state.user} loading={this.state.loading} />
+        )} />
       </Switch>
-
 
       
       </div>
@@ -88,7 +107,8 @@ class App extends Component {
     </Router>
   );
 }
-
+//path='/user/:login' what does it mean   :login is called the PARAM of login. {...users} is compulsory if it is
+//not there we can not use it in User.js The path should be passed in as props
 }
 
 export default App;
